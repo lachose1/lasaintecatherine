@@ -32,6 +32,9 @@ PHYSICALOFFSETX = 112
 PHYSICALOFFSETY = 113
 
 printer_name = win32print.GetDefaultPrinter ()
+printers = ["EPSON TM-T20II Receipt", "EPSON TM-T20II Receipt5"]
+# printer_name[0] = "EPSON TM-T20II Receipt"
+# printer_name[1] = "EPSON TM-T20II Receipt5"
 
 while(True):
 	#lst = os.listdir("../picturesToPrint/")
@@ -45,6 +48,9 @@ while(True):
 	#	print picture.split('\\', 1)[-1]
 
 	file_name = lst[0]
+	current_screen = int(filter(str.isdigit, lst[0].split('\\', 1)[-1].split('-')[0])) - 1
+	printer_name = printers[current_screen]
+	
 	#
 	# You can only write a Device-independent bitmap
 	#  directly to a Windows device context; therefore
@@ -94,4 +100,4 @@ while(True):
 
 	#Move file once we are done
 	os.rename(file_name, "../picturesPrinted/" + file_name.split('\\', 1)[-1])
-	time.sleep(5)
+	time.sleep(1)
