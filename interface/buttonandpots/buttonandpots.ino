@@ -13,23 +13,25 @@
  */
 
 int ledPin = 13; // choose the pin for the LED
-int inPin = 2;   // choose the input pin (for a pushbutton)
-int val = 0;     // variable for reading the pin status
+int btnPins[1] = {2};
+int btns[1];     // variable for reading the pin status
+int pot = 0;
 
 void setup() {
   pinMode(ledPin, OUTPUT);  // declare LED as output
-  pinMode(inPin, INPUT);    // declare pushbutton as input
+  pinMode(btnPins[0], INPUT);    // declare pushbutton as input
   Serial.begin(9600);
 }
 
 void loop(){
-  val = digitalRead(inPin);  // read input value
-  if (val == HIGH) {         // check if the input is HIGH (button released)
-    digitalWrite(ledPin, LOW);  // turn LED OFF
+  btns[0] = digitalRead(btnPins[0]);  // read input value
+  pot = analogRead(A0);
+  
+  Serial.println(pot);
+  if (btns[0] == HIGH) {         // check if the input is HIGH (button released)
     Serial.println("0");
   } else {
-    digitalWrite(ledPin, HIGH);  // turn LED ON
     Serial.println("1");
   }
-  delay(50);
+  delay(50); //Delay to avoid flicker
 }
