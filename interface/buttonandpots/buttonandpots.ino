@@ -1,33 +1,32 @@
-/* Basic Digital Read
- * ------------------ 
- *
- * turns on and off a light emitting diode(LED) connected to digital  
- * pin 13, when pressing a pushbutton attached to pin 7. It illustrates the
- * concept of Active-Low, which consists in connecting buttons using a
- * 1K to 10K pull-up resistor.
- *
- * Created 1 December 2005
- * copyleft 2005 DojoDave <http://www.0j0.org>
- * http://arduino.berlios.de
- *
- */
+#include <ArduinoJson.h>
 
-int ledPin = 13; // choose the pin for the LED
+StaticJsonBuffer<200> jsonBuffer;
+
 int btnPins[1] = {2};
-int btns[1];     // variable for reading the pin status
-int pot = 0;
+int btns[1];
+int potsPins[1] = {A0};
+int pots[1];
+int stations = 0;
 
 void setup() {
-  pinMode(ledPin, OUTPUT);  // declare LED as output
-  pinMode(btnPins[0], INPUT);    // declare pushbutton as input
+  stations = sizeof(btnPins); //Detect how many stations are plugged
+  for(byte i = 0; i < stations; i++) // declare pushbuttons as inputs
+    pinMode(btnPins[i], INPUT);
+
   Serial.begin(9600);
 }
 
 void loop(){
-  btns[0] = digitalRead(btnPins[0]);  // read input value
-  pot = analogRead(A0);
+//  JsonObject& root = jsonBuffer.createObject();
   
-  Serial.println(pot);
+  for(byte i = 0; i < stations; i++)
+    pots[i] = analogRead(potsPins[i]); // Read pots
+  
+  for(byte i = 0; i < stations; i++)
+    btns[i] = digitalRead(btnPins[i]);  // Read input value
+    
+
+  Serial.println(pots[0]);
   if (btns[0] == HIGH) {         // check if the input is HIGH (button released)
     Serial.println("0");
   } else {
