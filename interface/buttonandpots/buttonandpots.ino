@@ -18,7 +18,6 @@ void loop(){
   String json = "{";
   for(byte i = 0; i < stations * 3; i++)
     pots[i] = analogRead(potsPins[i]); // Read pots
-  pots[1], pots[2] = 0;
   
   for(byte i = 0; i < stations; i++)
     btns[i] = digitalRead(btnPins[i]);  // Read input value
