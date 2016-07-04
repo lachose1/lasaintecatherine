@@ -3,7 +3,7 @@
 int btnPins[1] = {2};
 int btns[1];
 int potsPins[3] = {A0, A1, A2};
-int pots[1];
+int pots[3];
 int stations = 0;
 
 void setup() {
@@ -18,21 +18,24 @@ void loop(){
   String json = "{";
   for(byte i = 0; i < stations * 3; i++)
     pots[i] = analogRead(potsPins[i]); // Read pots
+  pots[1], pots[2] = 0;
   
   for(byte i = 0; i < stations; i++)
     btns[i] = digitalRead(btnPins[i]);  // Read input value
     
   for(byte i = 0; i < stations; i++) {
-     json += "'station";
+     json += "\"station";
      json += i;
-     json += "': {'btn': ";
+     json += "\": {\"btn\": ";
      json += !btns[0];
      json += ", ";
      for(byte j = 0; j < 3; j++) {
-          json += "'pot";
+          json += "\"pot";
           json += j;
-          json += "': ";
+          json += "\": ";
           json += pots[j];
+          if(j < 2)
+            json += ", ";
      }
      json += "}";
   }
