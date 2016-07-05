@@ -1,10 +1,8 @@
 #include <string.h>
 
-int btnPins[2] = {2, 3};
-int btns[2];
-int potsPins[6] = {A0, A1, A2, A3, A4, A5};
-int pots[6];
-int stations = 2;
+int btnPins[3] = {2, 3, 4};
+int potsPins[9] = {A0, A1, A2, A3, A4, A5, A6, A7, A8};
+int stations = 3;
 
 void setup() {
 //  stations = sizeof(btnPins) - 1; //Detect how many stations are plugged
