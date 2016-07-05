@@ -1,13 +1,13 @@
 #include <string.h>
 
-int btnPins[1] = {2};
-int btns[1];
-int potsPins[3] = {A0, A1, A2};
-int pots[3];
-int stations = 0;
+int btnPins[2] = {2, 3};
+int btns[2];
+int potsPins[6] = {A0, A1, A2, A3, A4, A5};
+int pots[6];
+int stations = 2;
 
 void setup() {
-  stations = sizeof(btnPins) - 1; //Detect how many stations are plugged
+//  stations = sizeof(btnPins) - 1; //Detect how many stations are plugged
   for(byte i = 0; i < stations; i++) // declare pushbuttons as inputs
     pinMode(btnPins[i], INPUT);
 
@@ -16,28 +16,37 @@ void setup() {
 
 void loop(){
   String json = "{";
-  for(byte i = 0; i < stations * 3; i++)
-    pots[i] = analogRead(potsPins[i]); // Read pots
-  
-  for(byte i = 0; i < stations; i++)
-    btns[i] = digitalRead(btnPins[i]);  // Read input value
-    
-  for(byte i = 0; i < stations; i++) {
-     json += "\"station";
-     json += i;
-     json += "\": {\"btn\": ";
-     json += !btns[0];
-     json += ", ";
-     for(byte j = 0; j < 3; j++) {
-          json += "\"pot";
-          json += j;
-          json += "\": ";
-          json += pots[j];
-          if(j < 2)
-            json += ", ";
-     }
-     json += "}";
+  json += "\"pots\": [";
+  for(byte i = 0; i < stations * 3; i++) {
+    json += analogRead(potsPins[i]); // Read pots
+    if(i < stations * 3 - 1)
+      json += ", ";
   }
+  json += "], \"btns\": [";
+  for(byte i = 0; i < stations; i++) {
+    json += !digitalRead(btnPins[i]);  // Read input value
+    if(i < stations - 1)
+      json += ", ";
+  }
+  json += "]";
+//  for(byte i = 0; i < stations; i++) {
+//     json += "\"station";
+//     json += i;
+//     json += "\": {\"btn\": ";
+//     json += !digitalRead(btnPins[i]);
+//     json += ", ";
+//     for(byte j = 0; j < 3; j++) {
+//          json += "\"pot";
+//          json += j;
+//          json += "\": ";
+//          json += analogRead(potsPins[(i+1)*j]);
+//          if(j < 2)
+//            json += ", ";
+//     }
+//     json += "}";
+//     if(i < stations - 1)
+//          json += ", ";
+//  }
   json += "}";
   Serial.println(json);
 //  for(byte i = 0; i < stations; i++)
