@@ -22,7 +22,7 @@ void loop(){
   }
   json += "], \"btns\": [";
   for(byte i = 0; i < stations; i++) {
-    json += !digitalRead(btnPins[i]);  // Read input value
+    json += digitalRead(btnPins[i]);  // Read input value
     if(i < stations - 1)
       json += ", ";
   }
